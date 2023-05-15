@@ -1,87 +1,84 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8">
-    <title>Formulaire d'exemple</title>
-    <style>
-      /* styles CSS pour le formulaire */
-      label {
-        display: block;
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
-      input[type="text"], textarea {
-        display: block;
-        margin-bottom: 10px;
-        width: 100%;
-        padding: 5px;
-        box-sizing: border-box;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Formulaire d'exemple</h1>
-    <form action="#" method="post">
-      
-      <!-- Question à choix multiples -->
-      <label for="question1">Question 1 : Qui est l'intrus ?</label>
-      <select id="question1" name="question1">
-        <option value="">Sélectionnez une option</option>
-        <option value="rouge">Orange</option>
-        <option value="bleu">Rouge</option>
-        <option value="vert">Vert</option>
-        <option value="jaune">Jaune</option>
-      </select>
-      
-      <!-- Question vrai/faux -->
-      <label for="question2">Question 2 : Nicolas Sarkozy est le président français qui à effectué le plus long mandat ?</label>
-      <input type="radio" id="question2-true" name="question2" value="true">
-      <label for="question2-true">Vrai</label>
-      <input type="radio" id="question2-false" name="question2" value="false">
-      <label for="question2-false">Faux</label>
-      
-      <!-- Question à réponse courte -->
-      <label for="question3">Question 3 : Quel est votre language préféré ?</label>
-      <input type="text" id="question3" name="question3">
-      
-      <!-- Bouton de soumission -->
-      <input type="submit" value="Envoyer">
-      
-    </form>
 
-    <script>
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire d'exemple</title>
+  <style>
+    /* styles CSS pour le formulaire */
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
 
-      function shuffle(array) {
-        let currentIndex = array.length;
-        let temporaryValue, randomIndex;
-      
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-      
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-      
-          // And swap it with the current element.
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
-        }
-      
-        return array;
+    input[type="text"],
+    textarea {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Formulaire d'exemple</h1>
+  <form action="#" method="post">
+
+    <!-- Question à choix multiples -->
+    <label for="question1">Question 1 : Qui est l'intrus ?</label>
+    <select id="question1" name="question1">
+      <option value="">Sélectionnez une option</option>
+      <option value="orange">Orange</option>
+      <option value="rouge">Rouge</option>
+      <option value="vert">Vert</option>
+      <option value="jaune">Jaune</option>
+    </select>
+
+
+    <!-- Question à réponse courte -->
+    <label for="question4">Question 4 : Quelle est la hauteur actuelle de la Tour Eiffel ?</label>
+    <input type="text" id="question4" name="question4">
+
+
+    <button type="button" onclick="submitQuiz()">Soumettre</button>
+  </form>
+  <script>
+
+
+    function submitQuiz() {
+      // récupération des valeurs pour chaque question
+      var question1 = document.getElementById("question1").value;
+      var question4 = document.getElementById("question4").value;
+
+      console.log(question4)
+
+      const correctAnswers =
+      {
+        question1: 'orange',
+        question4: '330',
+      };
+
+      let score = 0;
+
+      if (question1 === correctAnswers.question1) {
+        score += 1;
       }
-      
-      // Tableaux de réponses pour chaque question
-      const question1Answers = ["Orange", "Rouge", "Vert", "Jaune"];
-      const question2Answers = ["Vrai", "Faux"];
-      const question3Answers = [];
-      
-      // Mélanger les éléments de chaque tableau de réponse de manière aléatoire
-      shuffle(question1Answers);
-      shuffle(question2Answers);
-      shuffle(question3Answers);
-      
 
-    </script>
-  </body>
+      if (question4.toLowerCase() === correctAnswers.question4.toLowerCase()) {
+        score += 1;
+      }
+      alert(`Votre score est de ${score} sur 4`);
+    }
+
+   
+    
+
+
+  </script>
+
+</body>
+
 </html>

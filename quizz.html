@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz</title>
+	<script src="quiz.js"></script>
+</head>
+<body>
+	<h1>Quiz</h1>
+	<form>
+		<div>
+			<h2>Question 1</h2>
+			<label>
+				<input type="radio" name="q1" value="a" />
+				Réponse A
+			</label>
+			<label>
+				<input type="radio" name="q1" value="b" />
+				Réponse B
+			</label>
+			<label>
+				<input type="radio" name="q1" value="c" />
+				Réponse C
+			</label>
+		</div>
+		<div>
+			<h2>Question 2</h2>
+			<label>
+				<input type="radio" name="q2" value="a" />
+				Réponse A
+			</label>
+			<label>
+				<input type="radio" name="q2" value="b" />
+				Réponse B
+			</label>
+			<label>
+				<input type="radio" name="q2" value="c" />
+				Réponse C
+			</label>
+		</div>
+		<div>
+			<h2>Question 3</h2>
+			<label>
+				<input type="radio" name="q3" value="a" />
+				Réponse A
+			</label>
+			<label>
+				<input type="radio" name="q3" value="b" />
+				Réponse B
+			</label>
+			<label>
+				<input type="radio" name="q3" value="c" />
+				Réponse C
+			</label>
+		</div>
+		<button type="button" onclick="submitQuiz()">Soumettre</button>
+		<button type="reset">Réinitialiser</button>
+	</form>
+	<div id="score"></div>
+	<div id="timer"></div>
+
+    <script>
+        // Définition des questions
+const questions = [
+    {
+      id: 1,
+      text: "Quelle est la capitale de la France ?",
+      choices: ["Paris", "Londres", "Berlin"],
+      correctAnswer: "Paris"
+    },
+    {
+      id: 2,
+      text: "Quelle est la couleur du cheval blanc d'Henri IV ?",
+      choices: ["Noir", "Blanc", "Rouge"],
+      correctAnswer: "Blanc"
+    },
+    {
+      id: 3,
+      text: "Qui a écrit Les Misérables ?",
+      choices: ["Victor Hugo", "Gustave Flaubert", "Emile Zola"],
+      correctAnswer: "Victor Hugo"
+    },
+    {
+      id: 4,
+      text: "Quel est le plus grand pays du monde ?",
+      choices: ["Chine", "Etats-Unis", "Russie"],
+      correctAnswer: "Russie"
+    },
+    {
+      id: 5,
+      text: "Quel est le symbole chimique de l'or ?",
+      choices: ["Au", "Ag", "Cu"],
+      correctAnswer: "Au"
+    }
+  ];
+  
+  // Fonction pour mélanger les éléments d'un tableau
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  
+  // Fonction pour afficher les questions et les choix de réponses sur la page
+  function displayQuestions() {
+    const quizForm = document.getElementById("quiz-form");
+    let html = "";
+    questions.forEach((question) => {
+      html += `<h3>${question.text}</h3>`;
+      const choices = shuffleArray(question.choices);
+      choices.forEach((choice) => {
+        html += `
+          <div>
+            <input type="radio" id="question-${question.id}-choice-${choice}" name="question-${question.id}" value="${choice}">
+            <label for="question-${question.id}-choice-${choice}">${choice}</label>
+          </div>
+        `;
+      });
+    });
+    quizForm.innerHTML = html;
+  }
+  
+  // Fonction pour récupérer les réponses de l'utilisateur et calculer le score
+  function submitQuiz() {
+    let score = 0;
+    questions.forEach((question) => {
+      const selectedChoice = document.querySelector(`input[name="question-${question.id}"]:checked`);
+      if (selectedChoice && selectedChoice.value === question.correctAnswer) {
+        score++;
+      }
+    });
+    const scorePercent = Math.round(score / questions.length * 100);
+    alert(`Votre score est de ${scorePercent}%`);
+  }
+  
+  // Minuterie
+  const TIMER_DURATION = 60; // Durée en secondes
+  let timerSecondsLeft = TIMER_DURATION;
+  let timerIntervalId;
+  
+  function startTimer() {
+    timerIntervalId = setInterval(() => {
+      timerSecondsLeft--;
+      if (timerSecondsLeft === 0) {
+        clearInterval(timerIntervalId);
+        submitQuiz();
+      }
+      const timerDisplay = document.getElementById("timer-display");
+      timerDisplay.textContent = `Temps restant : ${timerSecondsLeft}s`;
+    }, 1000);
+  }
+  
+  // Initialisation de la page
+  displayQuestions();
+  startTimer();
+  
+    </script>
+</body>
+</html>
