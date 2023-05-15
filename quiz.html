@@ -76,7 +76,8 @@
     };
     
     const myArray = ["orange", "rouge", "vert", "jaune"];
-
+    
+// Mélanger aléatoirement les réponses
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -89,6 +90,19 @@ window.addEventListener('load', shuffleArray);
 
 const shuffledArray = shuffleArray(myArray);
 console.log(shuffledArray);
+
+function loadQuestion() {
+  const questions = [
+    {
+      question: "Question 1 : Qui est l'intrus ?",
+      options: shuffleArray(["orange", "rouge", "vert", "jaune"]),
+    },
+    {
+      question: "Question 2 : Quelle est la hauteur actuelle de la Tour Eiffel ?",
+      options: shuffleArray(["312m", "401m", "321m", "330m"]),
+    },
+  ];
+}
 
     function submitQuiz() {
       // récupération des valeurs pour chaque question
