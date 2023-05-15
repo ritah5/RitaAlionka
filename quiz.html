@@ -50,8 +50,18 @@
     <label for="question3">Question 3 : Qui est le Président actuel de la France ? </label>
     <input type="text" id="question3" name="question3">
 
-
+    <!-- Vrai ou Faux-->
+    <label for="question4">Question 4 : La Terre est plate. </label>
+    <input type="radio" class="question4" name="question4" value="true">
+      Vrai
+    <input type="radio" class="question4" name="question4" value="false">
+      Faux
+    
     <button type="button" onclick="submitQuiz()">Soumettre</button>
+    <button onclick="reset()" class="btn btn-primary mx-3 my-3">Réinitialiser</button>
+    <div id="timer">
+      <span>Temps restant : <span id="time-left">30</span> secondes</span>
+      <p id="message"></p>
   </form>
   <script>
 
@@ -75,13 +85,22 @@ function shuffleArray(array) {
       var question3 = document.getElementById("question3").value;
 
 
+      console.log([...document.getElementsByClassName("question4")])
       const correctAnswers =
       {
         question1: 'orange',
-        question2: '330',
+        question2: '330m',
         question3: 'Emmanuel Macron',
+        question4: 'false'
+    
       };
 
+      var question4 = [...document.getElementsByClassName("question4")].filter(function(element){console.log(element) 
+        return element.checked})[0].value;
+
+
+      console.log(question4, correctAnswers.question4)
+  
       let score = 0;
 
       if (question1 === correctAnswers.question1) {
@@ -93,49 +112,49 @@ function shuffleArray(array) {
       if (question3.toLowerCase() === correctAnswers.question3.toLowerCase()) {
         score += 1;
       }
-      alert(`Votre score est de ${score} sur 3`);
+      if (question4 === correctAnswers.question4) {
+        score += 1;
+      }
+      
+      alert(`Votre score est de ${score} sur 4`);
     }
 
-    var totalTime = 30; // temps total en secondes
-var timeLeft = totalTime; // temps restant en secondes
-var timer;
-
-  </script>
-
-  <div id="timer">Temps restant : <span id="time-left">30</span> secondes</div>
-  <button onclick="startTimer()">Commencer</button>
-  <button id="reset-button">Reinitialiser</button>
+    const reset = () => 
+    {
+      location.reload()
+  }
 
 
-  <script>
+  function startTimer() 
+  {
+    let timeLeft = 30; 
+    let timerInterval = setInterval(() => 
+    { 
+      document.getElementById('time-left').textContent = timeLeft;
+      if (timeLeft <= 0) 
+      {
+        clearInterval(timerInterval);
+        document.getElementById('message').textContent = 'Temps écoulé !';  
+      }
+      timeLeft--; // Décrémenter le nombre de secondes restantes
+    }, 1000);
+  }
 
+  startTimer()
 
-    function startTimer() {
-      let timeLeft = 30; // temps en secondes
-      const timerElement = document.getElementById("time-left");
-    
-      const timer = setInterval(() => {
-        timeLeft--;
-        timerElement.innerText = timeLeft;
-        if (timeLeft === 0) {
-          clearInterval(timer);
-          // faire quelque chose une fois que le temps est écoulé
-        }
-      }, 1000); // intervalle de temps en millisecondes
+  function checkAnswer() {
+    if (isTimeUp) {
+      alert("Temps écoulé !");
+      return;
     }
-    
-    const resetButton = document.getElementById("reset-button");
-resetButton.addEventListener("click", resetTime);
-
-function resetTime() {
-  clearInterval(timer); // arrêter la minuterie
-  timeLeft = 60; // réinitialiser le temps restant
-  timerElement.innerText = timeLeft; // mettre à jour l'affichage de la minuterie
-}
-    
-  </script>
+  }
+  
 
   
+
+  </script>
+  
+
 
 
 </body>
