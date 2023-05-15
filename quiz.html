@@ -37,28 +37,49 @@
       <option value="jaune">Jaune</option>
     </select>
 
+    <label for="question2">Question 2 : Quelle est la hauteur actuelle de la Tour Eiffel ?</label>
+    <select id="question2" name="question2">
+      <option value="">Sélectionnez une option</option>
+      <option value="312m">312m</option>
+      <option value="401m">401m</option>
+      <option value="321m">321m</option>
+      <option value="330m">330m</option>
+    </select>
 
     <!-- Question à réponse courte -->
-    <label for="question4">Question 4 : Quelle est la hauteur actuelle de la Tour Eiffel ?</label>
-    <input type="text" id="question4" name="question4">
+    <label for="question3">Question 3 : Qui est le Président actuel de la France ? </label>
+    <input type="text" id="question3" name="question3">
 
 
     <button type="button" onclick="submitQuiz()">Soumettre</button>
   </form>
   <script>
 
+    const question1Answers = ["orange", "rouge", "vert", "jaune"];
+shuffleArray(question1Answers);
+
+const question2Answers = ["312m", "401m", "321m", "330m"];
+shuffleArray(question2Answers);
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
     function submitQuiz() {
       // récupération des valeurs pour chaque question
       var question1 = document.getElementById("question1").value;
-      var question4 = document.getElementById("question4").value;
+      var question2 = document.getElementById("question2").value;
+      var question3 = document.getElementById("question3").value;
 
-      console.log(question4)
 
       const correctAnswers =
       {
         question1: 'orange',
-        question4: '330',
+        question2: '330',
+        question3: 'Emmanuel Macron',
       };
 
       let score = 0;
@@ -66,18 +87,56 @@
       if (question1 === correctAnswers.question1) {
         score += 1;
       }
-
-      if (question4.toLowerCase() === correctAnswers.question4.toLowerCase()) {
+      if (question2 === correctAnswers.question2) {
         score += 1;
       }
-      alert(`Votre score est de ${score} sur 4`);
+      if (question3.toLowerCase() === correctAnswers.question3.toLowerCase()) {
+        score += 1;
+      }
+      alert(`Votre score est de ${score} sur 3`);
     }
 
-   
-    
-
+    var totalTime = 30; // temps total en secondes
+var timeLeft = totalTime; // temps restant en secondes
+var timer;
 
   </script>
+
+  <div id="timer">Temps restant : <span id="time-left">30</span> secondes</div>
+  <button onclick="startTimer()">Commencer</button>
+  <button id="reset-button">Reinitialiser</button>
+
+
+  <script>
+
+
+    function startTimer() {
+      let timeLeft = 30; // temps en secondes
+      const timerElement = document.getElementById("time-left");
+    
+      const timer = setInterval(() => {
+        timeLeft--;
+        timerElement.innerText = timeLeft;
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          // faire quelque chose une fois que le temps est écoulé
+        }
+      }, 1000); // intervalle de temps en millisecondes
+    }
+    
+    const resetButton = document.getElementById("reset-button");
+resetButton.addEventListener("click", resetTime);
+
+function resetTime() {
+  clearInterval(timer); // arrêter la minuterie
+  timeLeft = 60; // réinitialiser le temps restant
+  timerElement.innerText = timeLeft; // mettre à jour l'affichage de la minuterie
+}
+    
+  </script>
+
+  
+
 
 </body>
 
