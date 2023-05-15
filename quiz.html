@@ -37,6 +37,7 @@
       <option value="jaune">Jaune</option>
     </select>
 
+
     <label for="question2">Question 2 : Quelle est la hauteur actuelle de la Tour Eiffel ?</label>
     <select id="question2" name="question2">
       <option value="">Sélectionnez une option</option>
@@ -53,10 +54,10 @@
     <!-- Vrai ou Faux-->
     <label for="question4">Question 4 : La Terre est plate. </label>
     <input type="radio" class="question4" name="question4" value="true">
-      Vrai
+    Vrai
     <input type="radio" class="question4" name="question4" value="false">
-      Faux
-    
+    Faux
+
     <button type="button" onclick="submitQuiz()">Soumettre</button>
     <button onclick="reset()" class="btn btn-primary mx-3 my-3">Réinitialiser</button>
     <div id="timer">
@@ -65,18 +66,29 @@
   </form>
   <script>
 
-    const question1Answers = ["orange", "rouge", "vert", "jaune"];
-shuffleArray(question1Answers);
-
-const question2Answers = ["312m", "401m", "321m", "330m"];
-shuffleArray(question2Answers);
+    const question1 = [{question: "Qui est l'intrus ?",options: ["orange", "rouge", "vert", "jaune"], answer: "orange"}];
+    const question2 = {question: "Quelle est la hauteur actuelle de la Tour Eiffel ?",answers: [
+        { text: "312m", correct: false },
+        { text: "401m", correct: false },
+        { text: "321m", correct: false },
+        { text: "330m", correct: true }
+      ]
+    };
+    
+    const myArray = ["orange", "rouge", "vert", "jaune"];
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+  return array;
 }
+
+window.addEventListener('load', shuffleArray);
+
+const shuffledArray = shuffleArray(myArray);
+console.log(shuffledArray);
 
     function submitQuiz() {
       // récupération des valeurs pour chaque question
@@ -86,77 +98,52 @@ function shuffleArray(array) {
 
 
       console.log([...document.getElementsByClassName("question4")])
+
+      // Réponses attendues
       const correctAnswers =
       {
         question1: 'orange',
         question2: '330m',
         question3: 'Emmanuel Macron',
         question4: 'false'
-    
+
       };
 
-      var question4 = [...document.getElementsByClassName("question4")].filter(function(element){console.log(element) 
-        return element.checked})[0].value;
-
+      var question4 = [...document.getElementsByClassName("question4")].filter(function (element) {
+        console.log(element)
+        return element.checked
+      })[0].value;
 
       console.log(question4, correctAnswers.question4)
-  
-      let score = 0;
 
-      if (question1 === correctAnswers.question1) {
-        score += 1;
-      }
-      if (question2 === correctAnswers.question2) {
-        score += 1;
-      }
-      if (question3.toLowerCase() === correctAnswers.question3.toLowerCase()) {
-        score += 1;
-      }
-      if (question4 === correctAnswers.question4) {
-        score += 1;
-      }
-      
+      //Ajout des points au score
+      let score = 0;
+      if (question1 === correctAnswers.question1) {score += 1;}
+      if (question2 === correctAnswers.question2) {score += 1;}
+      if (question3.toLowerCase() === correctAnswers.question3.toLowerCase()) {score += 1;}
+      if (question4 === correctAnswers.question4) {score += 1;}
+
       alert(`Votre score est de ${score} sur 4`);
     }
 
-    const reset = () => 
-    {
+    const reset = () => {
       location.reload()
-  }
-
-
-  function startTimer() 
-  {
-    let timeLeft = 30; 
-    let timerInterval = setInterval(() => 
-    { 
-      document.getElementById('time-left').textContent = timeLeft;
-      if (timeLeft <= 0) 
-      {
-        clearInterval(timerInterval);
-        document.getElementById('message').textContent = 'Temps écoulé !';  
-      }
-      timeLeft--; // Décrémenter le nombre de secondes restantes
-    }, 1000);
-  }
-
-  startTimer()
-
-  function checkAnswer() {
-    if (isTimeUp) {
-      alert("Temps écoulé !");
-      return;
     }
-  }
-  
 
-  
+    //Minuterie du quiz
+    function startTimer() {
+      let timeLeft = 30;
+      let timerInterval = setInterval(() => {
+        document.getElementById('time-left').textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('message').textContent = 'Temps écoulé !';
+        }
+        timeLeft--; // Décrémenter le nombre de secondes restantes
+      }, 1000);
+    }
 
-  </script>
-  
-
-
-
-</body>
-
+    startTimer()
+    </script>
+  </body>
 </html>
